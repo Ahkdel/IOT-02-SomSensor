@@ -3,22 +3,19 @@
 
 static String sDarreraWiFiConnectada = "Cap SSID";
 
-String sDarreraSsid(){
+String sDarreraSsid() {
   return sDarreraWiFiConnectada;
 }
 
-void vDelayESP(unsigned long ulMilliseconds)
-{
+void vDelayESP(unsigned long ulMilliseconds) {
   unsigned long ulPreviousMillis = millis();
-
   do
   {
     yield();
   } while (millis() - ulPreviousMillis <= ulMilliseconds);
 }
 
-void vConnectToWiFi(const char *szSsid, const char *szPwd)
-{
+void vConnectToWiFi(const char *szSsid, const char *szPwd) {
   int nCmpt = 0;
   const TickType_t xDelay = 500 / portTICK_PERIOD_MS; // 0.5 seconds
 
@@ -46,8 +43,7 @@ void vConnectToWiFi(const char *szSsid, const char *szPwd)
   Serial.println();
 }
 
-boolean bIsListed(String szSSID, int *pNwO)
-{
+boolean bIsListed(String szSSID, int *pNwO) {
   for (int i = 0; i < N_WIFIS; i++)
   {
     if (String(stWiFi[i].szSSID) == szSSID)
@@ -103,8 +99,7 @@ void vSetupWifi() {
   } while (!bTryWifiConnection());
 }
 
-String szGetMac()
-{
+String szGetMac() {
   byte mac[6];
   String szMAC = "";
   char szMac[3];

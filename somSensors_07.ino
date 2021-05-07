@@ -179,8 +179,8 @@ void vPresentaMacIp(String sMac, String sIP) {
     szIP = "IP: " + sIP;
     szSSID = "SSID: " + sDarreraSsid();
   } else {
-    szIP = "-----------";
-    szSSID = "-----------";
+    szIP = "El sistema funciona";
+    szSSID = "sense Wi-Fi";
   }
   
   tft.setTextColor(TFT_BLUE, TFT_GREEN);
@@ -398,7 +398,7 @@ void mqttconnect() {
       client.subscribe(String("/" + String(sMac) + TOPIC_REQUEST_CAL).c_str());
       client.subscribe(String("/" + String(sMac) + TOPIC_CHECK_WIFI).c_str());
     } else {
-      Serial.print("failed, status code =");
+      Serial.print("failed, status code = ");
       Serial.print(client.state());
       Serial.println("try again in 5 seconds");
       /* Wait 5 seconds before retrying */
@@ -494,8 +494,7 @@ void vTryToConnectWiFi() {
 #endif         /* USING_WIFI */
 
 
-void TaskSw3LedW(void *pvParameters)  // This is a task.
-{
+void TaskSw3LedW(void *pvParameters) {  // This is a task.
   (void) pvParameters;
 
   pinMode(SW3, INPUT);
@@ -627,22 +626,22 @@ void loop() {
   }
 
   if (bHiHaBme680) {
-    sJson = "{ \"LDR\": "    + String(analogRead(LDR))
-            + ", \"T\": "    + String(lfT, 2)
-            + ", \"RH\": "   + String(lfRH, 1)
-            + ", \"P\": "    + String(lfP / 100.0F)
-            + ", \"IAQ\": "  + String(nIAQ)
-            + ", \"G\": "    +  String(gas_reference)
-            + ", \"Gs\": "    +  String(gas_score)
-            + ", \"RHs\": "    +  String(humidity_score)
+    sJson = "{ \"LDR\": "        + String(analogRead(LDR))
+            + ", \"T\": "        + String(lfT, 2)
+            + ", \"RH\": "       + String(lfRH, 1)
+            + ", \"P\": "        + String(lfP / 100.0F)
+            + ", \"IAQ\": "      + String(nIAQ)
+            + ", \"G\": "        + String(gas_reference)
+            + ", \"Gs\": "       + String(gas_score)
+            + ", \"RHs\": "      + String(humidity_score)
             + ", \"Estat\": "    + String(int(enState))
-            + ", \"CO2_ppm\": "    + String(nCO2)
+            + ", \"CO2_ppm\": "  + String(nCO2)
             + ", \"CO2_T\": "    + String(nTemp)
             + ", \"Llengua\": "  + "\"ca\""
             + "}";
   } else {
-    sJson = "{  \"LDR\": "    + String(analogRead(LDR))
-            + ", \"CO2_ppm\": "    + String(nCO2)
+    sJson = "{  \"LDR\": "       + String(analogRead(LDR))
+            + ", \"CO2_ppm\": "  + String(nCO2)
             + ", \"CO2_T\": "    + String(nTemp)
             + ", \"Llengua\": "  + "\"ca\""
             + "}";
@@ -665,7 +664,8 @@ void loop() {
     }
   }
   if (WiFi.status() != WL_CONNECTED) {
-    WiFiReset();
+    WiFi.disconnect();
+    WiFi.mode(WIFI_STA);
     vTryToConnectWiFi();
   }
   if (!bConsultaWiFi) {
